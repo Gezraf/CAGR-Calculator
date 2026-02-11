@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculation Results</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 2rem;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: 800px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .cagr-positive {
+            color: green;
+            font-weight: bold;
+        }
+
+        .cagr-negative {
+            color: red;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #dc3545;
+            font-style: italic;
+        }
+
+        .back-link {
+            margin-top: 2rem;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>CAGR Results</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Ticker</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Start Value</th>
+                <th>Final Value</th>
+                <th>Years (N)</th>
+                <th>CAGR</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for res in results %}
+            <tr>
+                <td>{{ res.ticker }}</td>
+                {% if res.error %}
+                <td colspan="6" class="error">{{ res.error }}</td>
+                {% else %}
+                <td>{{ res.start_date }}</td>
+                <td>{{ res.end_date }}</td>
+                <td>{{ res.starting_value }}</td>
+                <td>{{ res.final_value }}</td>
+                <td>{{ res.years }}</td>
+                <td class="{{ 'cagr-positive' if res.cagr >= 0 else 'cagr-negative' }}">
+                    {{ res.cagr }}%
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="/" class="back-link">← Calculate Another</a>
+</body>
+
+</html>
